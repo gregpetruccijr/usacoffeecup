@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The USA Coffee Cup — Annual AA Hockey Tournament</title>
+<meta name="description" content="The USA Coffee Cup: an annual AA hockey tournament. Fellowship on ice — all are welcome. March 6–7, 2027 at Riley Rink, Manchester Center, VT.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Extra+Condensed:wght@700;800&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     USA COFFEE CUP — design tokens
+     Ice-rink cold + coffee warm. Rink lines divide the sections.
+     ============================================================ */
+  :root {
+    --ice:        #F5F8FA;  /* page background — fresh sheet of ice */
+    --boards:     #FFFFFF;  /* card surfaces */
+    --rink-blue:  #14508C;  /* blue line */
+    --goal-red:   #C8102E;  /* red line — used sparingly */
+    --coffee:     #3E2A1B;  /* dark roast — primary text */
+    --crema:      #E9DCC9;  /* coffee crema — warm panel */
+    --steam:      #8FA6B8;  /* cool gray-blue for secondary text */
+    --display: 'Saira Extra Condensed', sans-serif;
+    --body: 'Public Sans', sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { animation: none !important; transition: none !important; } }
+  body {
+    font-family: var(--body);
+    background: var(--ice);
+    color: var(--coffee);
+    line-height: 1.6;
+  }
+  a { color: var(--rink-blue); }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--goal-red); outline-offset: 3px; }
+
+  .wrap { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---- Rink-line section dividers (blue line / red line) ---- */
+  .blue-line { border: 0; height: 6px; background: var(--rink-blue); }
+  .red-line  { border: 0; height: 4px; background: var(--goal-red); }
+
+  /* ============ HERO — center ice / coffee ring ============ */
+  .hero {
+    position: relative;
+    padding: 72px 24px 88px;
+    text-align: center;
+    overflow: hidden;
+    background: var(--boards);
+  }
+  /* The faceoff circle that is also a coffee-ring stain */
+  .faceoff {
+    position: relative;
+    width: min(560px, 88vw);
+    height: min(560px, 88vw);
+    margin: 0 auto;
+    border-radius: 50%;
+    border: 10px solid var(--goal-red);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  /* coffee ring stain offset behind the faceoff circle */
+  .faceoff::before {
+    content: "";
+    position: absolute;
+    inset: -26px auto auto -22px;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 14px solid rgba(62, 42, 27, 0.16); /* translucent dark roast */
+    filter: blur(1px);
+    z-index: 0;
+  }
+  /* center-ice hash dot */
+  .faceoff::after {
+    content: "";
+    position: absolute;
+    bottom: 12%;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--rink-blue);
+  }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--steam);
+  }
+  h1 {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(3.4rem, 11vw, 6.5rem);
+    line-height: 0.92;
+    text-transform: uppercase;
+    color: var(--coffee);
+    z-index: 1;
+  }
+  h1 .usa { color: var(--rink-blue); display: block; font-size: 0.5em; letter-spacing: 0.3em; }
+  .hero-date {
+    font-family: var(--mono);
+    font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+    color: var(--goal-red);
+    font-weight: 500;
+  }
+  .hero-sub { max-width: 34ch; color: var(--coffee); font-size: 1rem; z-index: 1; }
+  .cta {
+    display: inline-block;
+    margin-top: 18px;
+    background: var(--rink-blue);
+    color: #fff;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 12px 40px;
+    border-radius: 4px;
+    z-index: 1;
+  }
+  .cta:hover { background: #0E3C6B; }
+
+  /* ============ DETAILS — three zones ============ */
+  .details { padding: 64px 0; }
+  h2 {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(2.2rem, 6vw, 3.2rem);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 8px;
+  }
+  .section-note { color: var(--steam); font-size: 0.95rem; margin-bottom: 32px; }
+  .zones { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  @media (max-width: 720px) { .zones { grid-template-columns: 1fr; } }
+  .zone {
+    background: var(--boards);
+    border-top: 5px solid var(--rink-blue);
+    border-radius: 6px;
+    padding: 24px;
+    box-shadow: 0 1px 4px rgba(20, 80, 140, 0.08);
+  }
+  .zone h3 {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--goal-red);
+    margin-bottom: 10px;
+  }
+  .zone p { font-size: 0.98rem; }
+  .zone strong { font-weight: 700; }
+
+  /* ============ REGISTER — the crema panel ============ */
+  .register { background: var(--crema); padding: 64px 0; }
+  .register .wrap { max-width: 760px; }
+  .register p { margin-bottom: 20px; }
+  .form-slot {
+    background: var(--boards);
+    border: 2px dashed var(--steam);
+    border-radius: 6px;
+    padding: 40px 24px;
+    text-align: center;
+    color: var(--steam);
+    font-family: var(--mono);
+    font-size: 0.9rem;
+  }
+
+  /* ============ FOOTER ============ */
+  footer { background: var(--coffee); color: var(--crema); padding: 40px 0; }
+  footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; align-items: center; }
+  footer a { color: var(--crema); }
+  .foot-mark { font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: 1.4rem; letter-spacing: 0.06em; }
+</style>
+</head>
+<body>
+
+<!-- ================= HERO ================= -->
+<header class="hero">
+  <div class="faceoff">
+    <p class="eyebrow">Annual AA Hockey Tournament</p>
+    <h1><span class="usa">The USA</span>Coffee Cup</h1>
+    <!-- EDIT ME: real dates + venue -->
+    <p class="hero-date">MARCH 6–7, 2027 · RILEY RINK · MANCHESTER CENTER, VT</p>
+    <p class="hero-sub">One weekend. One cup. All are welcome.</p>
+    <a class="cta" href="#register">Register your team</a>
+  </div>
+</header>
+
+<hr class="blue-line" aria-hidden="true">
+
+<!-- ================= DETAILS ================= -->
+<section class="details">
+  <div class="wrap">
+    <h2>Tournament Details</h2>
+    <p class="section-note">Everything below is editable — swap in your real info.</p>
+    <div class="zones">
+      <div class="zone">
+        <h3>When &amp; Where</h3>
+        <p><strong>March 6–7, 2027</strong><br>
+        Riley Rink at Hunter Park<br>
+        Manchester Center, VT</p>
+      </div>
+      <div class="zone">
+        <h3>Format</h3>
+        <p><strong>Fellowship on ice — all are welcome.</strong><br>
+        Two games on Saturday, and a fellowship game on Sunday to close out the weekend.</p>
+      </div>
+      <div class="zone">
+        <h3>Entry</h3>
+        <p><strong>$100 per skater</strong><br>
+        Scholarships available — no one gets left off the ice. Merchandise available for purchase at the rink.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="red-line" aria-hidden="true">
+
+<!-- ================= REGISTER ================= -->
+<section class="register" id="register">
+  <div class="wrap">
+    <h2>Register</h2>
+    <p>Spots go fast — lock in your team below. Questions first? Email us at
+      <!-- EDIT ME --> <a href="mailto:info@usacoffeecup.com">info@usacoffeecup.com</a>.</p>
+
+    <!-- ============================================================
+         REGISTRATION FORM GOES HERE.
+         Easiest options (both free):
+         1. Google Forms: build the form, click Send > < > (embed),
+            copy the <iframe> code and paste it in place of the
+            .form-slot div below.
+         2. Tally.so: build the form, Share > Embed, paste iframe here.
+         ============================================================ -->
+    <div class="form-slot">
+      [ Registration form embed goes here — paste your Google Form or Tally iframe ]
+    </div>
+  </div>
+</section>
+
+<hr class="blue-line" aria-hidden="true">
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap">
+    <span class="foot-mark">USA Coffee Cup</span>
+    <span>
+      <!-- EDIT ME -->
+      <a href="mailto:info@usacoffeecup.com">info@usacoffeecup.com</a>
+    </span>
+  </div>
+</footer>
+
+</body>
+</html>
